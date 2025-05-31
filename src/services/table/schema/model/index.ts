@@ -1,12 +1,16 @@
 import { DataTypes, Model } from "sequelize";
 import { TableAttributes } from "../interface";
 import sequelize from "../../../../lib/database";
+import { TableStatus, table_status } from "../../../../lib";
 
-class Table extends Model<TableAttributes> implements TableAttributes {
+export class Table extends Model<TableAttributes> implements TableAttributes {
   public id!: number;
+
   public number!: number;
+
   public capacity!: number;
-  public status!: "available" | "occupied" | "reserved";
+
+  public status!: TableStatus;
 }
 
 Table.init(
@@ -26,7 +30,7 @@ Table.init(
       allowNull: false,
     },
     status: {
-      type: DataTypes.ENUM("available", "occupied", "reserved"),
+      type: DataTypes.ENUM(...table_status),
       defaultValue: "available",
     },
   },
@@ -36,5 +40,3 @@ Table.init(
     tableName: "tables",
   }
 );
-
-export default Table;

@@ -1,20 +1,18 @@
 import { DataTypes, Model } from "sequelize";
 import { OrderAttributes } from "../interface";
 import sequelize from "../../../../lib/database";
-// import MenuItem from './MenuItem';
-// import Table from './Table';
 
-class Order extends Model<OrderAttributes> implements OrderAttributes {
+import { OrderStatus, order_status } from "../../../../lib";
+import { Table } from "../../../table";
+import { MenuItem } from "../../../menu";
+
+export class Order extends Model<OrderAttributes> implements OrderAttributes {
   public id!: number;
-  //   public tableId!: number;
+  public tableId!: number;
   public items!: { menuItemId: number; quantity: number }[];
-
-  public status!: "pending" | "preparing" | "served" | "completed" | "cancelled";
-
+  public status!: OrderStatus;
   public total!: number;
-
   public readonly createdAt!: Date;
-
   public readonly updatedAt!: Date;
 }
 
@@ -25,17 +23,19 @@ Order.init(
       autoIncrement: true,
       primaryKey: true,
     },
-    // tableId: {
-    //   type: DataTypes.INTEGER,
-    //   allowNull: false,
-    //   references: { model: Table, key: 'id' },
-    // },
+
+    tableId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: { model: Table, key: "id" },
+    },
+
     items: {
       type: DataTypes.JSON,
       allowNull: false,
     },
     status: {
-      type: DataTypes.ENUM("pending", "preparing", "served", "completed", "cancelled"),
+      type: DataTypes.ENUM(...order_status),
       defaultValue: "pending",
     },
     total: {
@@ -50,7 +50,5 @@ Order.init(
   }
 );
 
-// Order.belongsTo(Table, { foreignKey: 'tableId' });
-// Order.belongsToMany(MenuItem, { through: 'OrderItems' });
-
-export default Order;
+Order.belongsTo(Table, { foreignKey: "tableId" });
+Order.belongsToMany(MenuItem, { through: "OrderItems" });

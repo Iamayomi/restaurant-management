@@ -15,7 +15,7 @@ export async function initializeDatabase() {
     await sequelize.authenticate();
     Logger.success("Database connection established successfully");
 
-    await sequelize.sync({ alter: true });
+    await sequelize.sync({ force: true });
   } catch (error) {
     Logger.error(`Unable to connect to the database:  ${error}`);
     process.exit(1);

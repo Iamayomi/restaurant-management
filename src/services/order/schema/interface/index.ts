@@ -1,9 +1,17 @@
+import { OrderStatus } from "../../../../lib";
+
 export interface OrderAttributes {
   id: number;
-  //   tableId: number;
+
+  tableId: number;
+
   items: { menuItemId: number; quantity: number }[];
-  status: "pending" | "preparing" | "served" | "completed" | "cancelled";
+
+  status: OrderStatus;
+
   total: number;
+
   createdAt?: Date;
+
   updatedAt?: Date;
 }
