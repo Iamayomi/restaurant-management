@@ -6,7 +6,7 @@ export const customEnvs = {
   googleAuthUser: process.env?.GOOGLE_AUTH_USER as string,
 
   googleAuthPassword: process.env?.GOOGLE_AUTH_PASSWORD as string,
-
+  
   postgres_url: process.env.DATABASE_URL as string,
 
   jwtSecret: process.env.JWT_SECRET as string,

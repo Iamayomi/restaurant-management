@@ -1,4 +1,5 @@
 import express, { Express } from "express";
+import "reflect-metadata";
 import cors from "cors";
 import "dotenv/config";
 import cookieParser from "cookie-parser";
@@ -6,6 +7,7 @@ import helmet from "helmet";
 import morgan from "morgan";
 
 import { corsOptions, rateLimiter, initializeDatabase, customEnvs, Logger } from "./lib";
+import router from "./routes";
 
 const app: Express = express();
 const PORT = customEnvs.port || 5000;
@@ -19,6 +21,8 @@ app.use(morgan("combined"));
 app.use(cookieParser());
 app.use(express.json());
 app.use(rateLimiter);
+
+app.use("/api/v1", router);
 
 // Handle synchronous errors
 process.on("uncaughtException", (err) => {

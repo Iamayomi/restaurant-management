@@ -1,5 +1,5 @@
 import { NextFunction } from "express";
-import { CustomRequest, UserRoles, sendError } from "../..";
+import { CustomRequest, UserRoles, sendError } from "../../lib";
 
 export const validateRoles = (...allowedRoles: UserRoles[]) => {
   return (req: CustomRequest, _: Response, next: NextFunction) => {
